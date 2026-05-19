@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZRD4SD0003_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZRD4SD0003_TOP</h2>
+<h3> Description: TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZRD4SD0003_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+TABLES: sscrfields,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ztd4sd0008,&nbsp;ztd4sd0014,&nbsp;ztd4sd0015,&nbsp;ztd4sd0018.<br />
+<br />
+DATA: gv_defalt   TYPE time VALUE 220000,     " 배치에 종료일 기본 값을 가질 상수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;sy-ucomm,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fieldcat&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant&nbsp;&nbsp;TYPE&nbsp;disvariant,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Variant&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;abap_bool,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;레이아웃&nbsp;저장&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_answer&nbsp;&nbsp;&nbsp;TYPE&nbsp;abap_bool.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;POPUP&nbsp;CONFIRM&nbsp;상태&nbsp;변수<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;100번&nbsp;화면&nbsp;일반&nbsp;청구<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;일반&nbsp;청구&nbsp;대상&nbsp;목록&nbsp;테이블<br />
+*&nbsp;-&nbsp;선택화면&nbsp;조건으로&nbsp;조회한&nbsp;미청구&nbsp;출하문서&nbsp;기반&nbsp;데이터<br />
+*&nbsp;-&nbsp;GPI&nbsp;완료&nbsp;+&nbsp;미청구&nbsp;건들<br />
+*&nbsp;-&nbsp;ALV&nbsp;100번&nbsp;화면에&nbsp;표시&nbsp;후&nbsp;사용자가&nbsp;선택하여&nbsp;청구&nbsp;실행<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF ty_bill_target,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;light&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;icon_d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV&nbsp;처리결과&nbsp;아이콘<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;출하헤더(ZTD4SD0014)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbeln_de&nbsp;&nbsp;TYPE&nbsp;zed4_sd_vbeln_de,&nbsp;&nbsp;"&nbsp;출하문서번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kunnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_kunnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;고객번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbeln_so&nbsp;&nbsp;TYPE&nbsp;zed4_sd_vbeln,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;판매오더번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wadat_ist&nbsp;TYPE&nbsp;zed4_sd_wadat_ist,&nbsp;"&nbsp;PGI&nbsp;일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lfdat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_lfdat,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;납품요청일<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;출하아이템(ZTD4SD0015)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;posnr_de&nbsp;&nbsp;TYPE&nbsp;zed4_sd_posnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;출하아이템번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_mm_matnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnrt&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_mm_maktx,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lfimg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_lfimg,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;출하수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vrkme&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_mm_meins,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;단위<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;판매오더헤더(ZTD4SD0008)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_auart,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;판매문서유형<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;판매오더아이템(ZTD4SD0009)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;posnr_so&nbsp;&nbsp;TYPE&nbsp;zed4_sd_posnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;판매오더아이템번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kbetr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_kbetr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;단가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netwr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_netwr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;금액<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disc_amt&nbsp;&nbsp;TYPE&nbsp;zed4_sd_disc_amt,&nbsp;&nbsp;"&nbsp;할인금액<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;waers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_fi_waers,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;통화<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;청구&nbsp;처리&nbsp;결과<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fkdat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_fkdat,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;청구일자&nbsp;(선택화면&nbsp;pa_fkdtb)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbeln_iv&nbsp;&nbsp;TYPE&nbsp;zed4_sd_vbeln_bi,&nbsp;&nbsp;"&nbsp;생성된&nbsp;청구번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;string,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;처리메시지<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_bill_target.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;판매문서유형&nbsp;텍스트<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF ty_auart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zed4_sd_auart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;TYPE&nbsp;zed4_sd_text,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_auart.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;자재&nbsp;텍스트<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF ty_matnrt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;zed4_mm_matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;TYPE&nbsp;maktx,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ty_matnrt.<br />
+<br />
+DATA: gt_auartt    TYPE HASHED TABLE OF ty_auart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;UNIQUE&nbsp;KEY&nbsp;auart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_matnrt&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;HASHED&nbsp;TABLE&nbsp;OF&nbsp;ty_matnrt<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;UNIQUE&nbsp;KEY&nbsp;matnr,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_title_100&nbsp;LIKE&nbsp;sy-title.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;청구&nbsp;대상&nbsp;목록<br />
+   </div>
+   <div class="code">
+DATA: gt_bill_target   TYPE STANDARD TABLE OF ty_bill_target,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_bill_target&nbsp;&nbsp;&nbsp;TYPE&nbsp;ty_bill_target,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container_100&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_custom_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid_100&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_alv_grid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo_100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fieldcat_100&nbsp;&nbsp;TYPE&nbsp;lvc_t_fcat.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2026. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

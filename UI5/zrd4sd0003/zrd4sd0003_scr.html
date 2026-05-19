@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZRD4SD0003_SCR</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZRD4SD0003_SCR</h2>
+<h3> Description: Select options</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZRD4SD0003_SCR<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;FUNCTION&nbsp;KEY는&nbsp;최대&nbsp;5개까지&nbsp;직접&nbsp;선언&nbsp;가능.<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN FUNCTION KEY 1. " 초기화<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TEXT-S01:&nbsp;처리&nbsp;모드&nbsp;선택<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b_mode WITH FRAME TITLE TEXT-s01.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;LINE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_b&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;grp&nbsp;DEFAULT&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;15(8)&nbsp;TEXT-t05&nbsp;FOR&nbsp;FIELD&nbsp;pa_b&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_t&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;grp.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;27(8)&nbsp;TEXT-t06&nbsp;FOR&nbsp;FIELD&nbsp;pa_t.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;60(79)&nbsp;TEXT-t99.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;LINE.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b_mode.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TEXT-S03:&nbsp;일반&nbsp;처리&nbsp;조건<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b02 WITH FRAME TITLE TEXT-s03.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;납품문서번호&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_vbeln&nbsp;FOR&nbsp;ztd4sd0014-vbeln_de&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;판매오더번호&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_vbso&nbsp;&nbsp;FOR&nbsp;ztd4sd0008-vbeln&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PGI&nbsp;일자&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_wadat&nbsp;FOR&nbsp;ztd4sd0014-wadat_ist&nbsp;MODIF&nbsp;ID&nbsp;gr2,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;납품요청일&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_lfdat&nbsp;FOR&nbsp;ztd4sd0014-lfdat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;고객번호&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_kunnr&nbsp;FOR&nbsp;ztd4sd0014-kunnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주문유형&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_auart&nbsp;FOR&nbsp;ztd4sd0008-auart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2,&nbsp;"&nbsp;OR/RE/CU<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자재번호&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_matnr&nbsp;FOR&nbsp;ztd4sd0015-matnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;청구일자<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PARAMETERS&nbsp;pa_fkdtb&nbsp;TYPE&nbsp;zed4_sd_fkdat&nbsp;DEFAULT&nbsp;sy-datum&nbsp;MODIF&nbsp;ID&nbsp;gr2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;기준일<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(지불상태)미청구건만&nbsp;조회<br />
+*&nbsp;&nbsp;PARAMETERS:&nbsp;pa_unbil&nbsp;TYPE&nbsp;zed4_sd_zpayment_stat&nbsp;DEFAULT&nbsp;'X'&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2.&nbsp;&nbsp;"&nbsp;미수<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(지불상태)미청구건만&nbsp;조회<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;LINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;1(31)&nbsp;TEXT-t09&nbsp;FOR&nbsp;FIELD&nbsp;pa_unbil&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_unbil&nbsp;TYPE&nbsp;zed4_sd_zpayment_stat&nbsp;DEFAULT&nbsp;'&nbsp;'&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;37(10)&nbsp;gv_unbt&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;LINE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;청구유형<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;LINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;1(31)&nbsp;TEXT-t08&nbsp;FOR&nbsp;FIELD&nbsp;pa_fkrt1&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_fkrt1&nbsp;TYPE&nbsp;zed4_sd_fkart&nbsp;DEFAULT&nbsp;'F2'&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;37(10)&nbsp;gv_fktt&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;LINE.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;지불기일<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PARAMETERS&nbsp;pa_paydu&nbsp;TYPE&nbsp;zed4_sd_zpayment_due&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr2.<br />
+<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b02.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&-----------------------------------------------------------------------------------&*<br />
+<br />
+*&nbsp;TEXT-S04:&nbsp;배치&nbsp;처리&nbsp;조건<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b03 WITH FRAME TITLE TEXT-s04.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;청구년월&nbsp;범위&nbsp;(필수)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;so_biym&nbsp;&nbsp;FOR&nbsp;ztd4sd0018-bill_ym&nbsp;MODIF&nbsp;ID&nbsp;gr3,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;(YYYYMM)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;렌탈계약번호&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_ctno&nbsp;&nbsp;FOR&nbsp;ztd4sd0018-ctno&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr3,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;고객번호&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_kunrb&nbsp;FOR&nbsp;ztd4sd0018-kunnr&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr3,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;청구상태&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so_bilst&nbsp;FOR&nbsp;ztd4sd0018-status&nbsp;&nbsp;DEFAULT&nbsp;'A'&nbsp;MODIF&nbsp;ID&nbsp;gr3.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주문유형<br />
+*&nbsp;&nbsp;PARAMETERS:&nbsp;pa_auar2&nbsp;TYPE&nbsp;zed4_sd_auart&nbsp;DEFAULT&nbsp;'RE'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr3,&nbsp;"&nbsp;RE=렌탈전용&nbsp;/&nbsp;공백=전체<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;청구유형<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_fkrt2&nbsp;TYPE&nbsp;zed4_sd_fkart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFAULT&nbsp;'F2'&nbsp;MODIF&nbsp;ID&nbsp;gr3.&nbsp;"&nbsp;F2&nbsp;/&nbsp;RE<br />
+<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주문유형<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;LINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;1(31)&nbsp;TEXT-t07&nbsp;FOR&nbsp;FIELD&nbsp;pa_auar2&nbsp;MODIF&nbsp;ID&nbsp;gr3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_auar2&nbsp;TYPE&nbsp;zed4_sd_auart&nbsp;DEFAULT&nbsp;'OR'&nbsp;MODIF&nbsp;ID&nbsp;gr3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;37(10)&nbsp;gv_autt&nbsp;MODIF&nbsp;ID&nbsp;gr3.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;LINE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;청구유형<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;LINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;1(31)&nbsp;TEXT-t08&nbsp;FOR&nbsp;FIELD&nbsp;pa_fkrt2&nbsp;MODIF&nbsp;ID&nbsp;gr3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_fkrt2&nbsp;TYPE&nbsp;zed4_sd_fkart&nbsp;DEFAULT&nbsp;'F2'&nbsp;MODIF&nbsp;ID&nbsp;gr3.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;37(10)&nbsp;gv_fkt2&nbsp;MODIF&nbsp;ID&nbsp;gr3.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;LINE.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;TEXT-S05:&nbsp;실행&nbsp;스케줄&nbsp;(배치&nbsp;전용)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b04&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-s05.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;실행&nbsp;방식<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_immed&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;sc&nbsp;DEFAULT&nbsp;'X'&nbsp;USER-COMMAND&nbsp;sc&nbsp;MODIF&nbsp;ID&nbsp;gr4,&nbsp;&nbsp;&nbsp;"&nbsp;즉시&nbsp;실행<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_repet&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;sc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr4,&nbsp;&nbsp;&nbsp;"&nbsp;주기&nbsp;반복<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_once&nbsp;&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;sc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr4.&nbsp;&nbsp;&nbsp;"&nbsp;1회&nbsp;예약<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;SKIP.<br />
+<br />
+*&nbsp;&nbsp;&nbsp;주기&nbsp;반복&nbsp;설정<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;BLOCK&nbsp;b07&nbsp;WITH&nbsp;FRAME&nbsp;TITLE&nbsp;TEXT-s05.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배치&nbsp;주기<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_unit&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1&nbsp;AS&nbsp;LISTBOX&nbsp;VISIBLE&nbsp;LENGTH&nbsp;10&nbsp;MODIF&nbsp;ID&nbsp;gr5,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주기&nbsp;값<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_perio&nbsp;TYPE&nbsp;i&nbsp;DEFAULT&nbsp;1&nbsp;MODIF&nbsp;ID&nbsp;gr5,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;예:&nbsp;1일&nbsp;마다&nbsp;→&nbsp;pa_unit&nbsp;+&nbsp;PA_PERIO=1<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복&nbsp;시작일시<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_rbgdt&nbsp;TYPE&nbsp;sydatum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr5,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;반복&nbsp;시작&nbsp;일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_rbgt1&nbsp;TYPE&nbsp;syuzeit&nbsp;DEFAULT&nbsp;gv_defalt&nbsp;MODIF&nbsp;ID&nbsp;gr5,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;반복&nbsp;시작&nbsp;시각<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복&nbsp;종료일&nbsp;(공백=무기한)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_rendt&nbsp;TYPE&nbsp;sydatum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr5,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;반복&nbsp;종료&nbsp;일자&nbsp;(공백=무기한)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_rbgt2&nbsp;TYPE&nbsp;syuzeit&nbsp;DEFAULT&nbsp;gv_defalt&nbsp;MODIF&nbsp;ID&nbsp;gr5.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;반복&nbsp;종료&nbsp;시각&nbsp;(공백=23시59분)<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1회&nbsp;예약&nbsp;설정&nbsp;(MODIF&nbsp;ID&nbsp;oc)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;pa_oadt&nbsp;TYPE&nbsp;sydatum&nbsp;MODIF&nbsp;ID&nbsp;gr6,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;실행&nbsp;일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_oatm&nbsp;TYPE&nbsp;syuzeit&nbsp;DEFAULT&nbsp;gv_defalt&nbsp;MODIF&nbsp;ID&nbsp;gr6.&nbsp;&nbsp;"&nbsp;실행&nbsp;시각<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b07&nbsp;.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;BLOCK&nbsp;b04.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b03.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&-----------------------------------------------------------------------------------&*<br />
+*&nbsp;TEXT-S06:&nbsp;저장&nbsp;시점<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK b05 WITH FRAME TITLE TEXT-s06.<br />
+<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;pa_mai&nbsp;&nbsp;&nbsp;TYPE&nbsp;uname&nbsp;MODIF&nbsp;ID&nbsp;gr7,&nbsp;&nbsp;"&nbsp;SAP&nbsp;User&nbsp;ID<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;알람&nbsp;여부<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_cond&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AS&nbsp;LISTBOX&nbsp;VISIBLE&nbsp;LENGTH&nbsp;10<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIF&nbsp;ID&nbsp;gr7,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Commit&nbsp;범위<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pa_comm2&nbsp;TYPE&nbsp;i&nbsp;MODIF&nbsp;ID&nbsp;gr7.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK b05.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2026. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

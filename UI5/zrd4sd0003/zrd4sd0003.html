@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZRD4SD0003</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZRD4SD0003</h2>
+<h3> Description: [SD] 청구 생성 프로그램</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZRD4SD0003<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;[SD]&nbsp;청구&nbsp;생성&nbsp;프로그램<br />
+*&&nbsp;Created&nbsp;By&nbsp;&nbsp;:&nbsp;황성현<br />
+*&&nbsp;Created&nbsp;On&nbsp;&nbsp;:&nbsp;2026-04-22<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zrd4sd0003 MESSAGE-ID zpd4_msg.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;INCLUDE<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+include <a href ="zrd4sd0003_top.html">zrd4sd0003_top</a>.   " TOP<br />
+include <a href ="zrd4sd0003_scr.html">zrd4sd0003_scr</a>.   " Selection Screen<br />
+include <a href ="zrd4sd0003_cls.html">zrd4sd0003_cls</a>.   " Local Class<br />
+include <a href ="zrd4sd0003_pbo.html">zrd4sd0003_pbo</a>.   " PBO<br />
+include <a href ="zrd4sd0003_pai.html">zrd4sd0003_pai</a>.   " PAI<br />
+include <a href ="zrd4sd0003_f01.html">zrd4sd0003_f01</a>.   " Form<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;INITIALIZATION<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;1000번&nbsp;화면&nbsp;Application&nbsp;Toolber&nbsp;버튼&nbsp;추가<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;initialize_function_key.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;입력필드&nbsp;초기&nbsp;값&nbsp;+&nbsp;텍스트&nbsp;설정<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;initialization_data.<br />
+<br />
+AT SELECTION-SCREEN OUTPUT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;버튼&nbsp;선택&nbsp;시&nbsp;Selection-Screen&nbsp;Block&nbsp;변경&nbsp;로직<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;modify_screen.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Listbox&nbsp;값&nbsp;텍스트&nbsp;세팅<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;set_listbox.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;AT&nbsp;SELECTION-SCREEN<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;FC01&nbsp;=&nbsp;초기화&nbsp;버튼<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;sscrfields-ucomm&nbsp;EQ&nbsp;'FC01'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;초기화&nbsp;버튼(FC01)&nbsp;클릭&nbsp;시&nbsp;-&nbsp;INITIALIZATION&nbsp;세팅으로&nbsp;리셋<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;reset_selection_screen.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;검색조건&nbsp;Fixed&nbsp;Value&nbsp;값&nbsp;가져오기<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;modify_text.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;선택한&nbsp;버튼에&nbsp;따라&nbsp;다르게&nbsp;검색!<br />
+*&nbsp;일반청구<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;pa_b&nbsp;EQ&nbsp;abap_on.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;청구&nbsp;대상&nbsp;조회<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;select_bill_target.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;조회&nbsp;결과&nbsp;없으면&nbsp;종료<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gt_bill_target&nbsp;IS&nbsp;INITIAL.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXT-E01:&nbsp;조회된&nbsp;청구&nbsp;대상이&nbsp;없습니다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;TEXT-e01&nbsp;TYPE&nbsp;'S'&nbsp;DISPLAY&nbsp;LIKE&nbsp;'W'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;청구&nbsp;대상&nbsp;ALV&nbsp;화면&nbsp;호출<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;배치청구<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ELSEIF&nbsp;pa_t&nbsp;EQ&nbsp;abap_on.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;추후&nbsp;배치&nbsp;구현<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T0100&nbsp;--&gt;&nbsp;&1<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;조회된&nbsp;청구&nbsp;대상이&nbsp;없습니다.<br />
+*&nbsp;M01&nbsp;청구번호<br />
+*&nbsp;M02&nbsp;처리메세지<br />
+*&nbsp;M03&nbsp;상태<br />
+*&nbsp;S01&nbsp;처리&nbsp;모드&nbsp;선택<br />
+*&nbsp;S02&nbsp;일반&nbsp;처리&nbsp;조건<br />
+*&nbsp;S03&nbsp;일반&nbsp;처리&nbsp;조건<br />
+*&nbsp;S04&nbsp;배치&nbsp;처리&nbsp;조건<br />
+*&nbsp;S05&nbsp;실행&nbsp;스케줄&nbsp;(배치&nbsp;전용)<br />
+*&nbsp;S06&nbsp;저장&nbsp;시점<br />
+*&nbsp;T01&nbsp;초기화<br />
+*&nbsp;T04&nbsp;단건&nbsp;처리<br />
+*&nbsp;T05&nbsp;일반&nbsp;처리<br />
+*&nbsp;T06&nbsp;배치&nbsp;처리<br />
+*&nbsp;T07&nbsp;주문유형<br />
+*&nbsp;T08&nbsp;청구유형<br />
+*&nbsp;T09&nbsp;지불상태<br />
+*&nbsp;T10&nbsp;[SD]&nbsp;청구&nbsp;생성&nbsp;프로그램<br />
+*&nbsp;T99&nbsp;@0S@&nbsp;더블클릭으로&nbsp;선택해야&nbsp;검색&nbsp;조건이&nbsp;변경됩니다.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_AUAR2&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;대량&nbsp;처리<br />
+*&nbsp;PA_COMM2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Commit&nbsp;범위<br />
+*&nbsp;PA_COND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;알림&nbsp;조건<br />
+*&nbsp;PA_FKDTB&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_FKRT1&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_FKRT2&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_IMMED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;즉시&nbsp;실행<br />
+*&nbsp;PA_MAI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;완료알림&nbsp;수신자<br />
+*&nbsp;PA_OADT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;시작일<br />
+*&nbsp;PA_OATM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;시작&nbsp;시간<br />
+*&nbsp;PA_ONCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1회&nbsp;예약<br />
+*&nbsp;PA_PAYDU&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_PERIO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주기&nbsp;값<br />
+*&nbsp;PA_RBGDT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복&nbsp;시작일<br />
+*&nbsp;PA_RBGT1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복&nbsp;시작&nbsp;시간<br />
+*&nbsp;PA_RBGT2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복&nbsp;종료&nbsp;시간<br />
+*&nbsp;PA_RENDT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복&nbsp;종료일<br />
+*&nbsp;PA_REPET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주기&nbsp;반복<br />
+*&nbsp;PA_T&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;배치&nbsp;처리<br />
+*&nbsp;PA_UNBIL&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_UNIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복주기<br />
+*&nbsp;SO_AUART&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_BILST&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_BIYM&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CTNO&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_KUNNR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_KUNRB&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_LFDAT&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_MATNR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_VBELN&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_VBSO&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_WADAT&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZPD4_MSG<br />
+*230&nbsp;&nbsp;&nbsp;컨테이너&nbsp;초기화에&nbsp;실패했습니다.<br />
+*231&nbsp;&nbsp;&nbsp;컨테이너&nbsp;생성&nbsp;중&nbsp;시스템&nbsp;오류가&nbsp;발생했습니다.<br />
+*232&nbsp;&nbsp;&nbsp;컨테이너를&nbsp;생성할&nbsp;수&nbsp;없습니다.<br />
+*233&nbsp;&nbsp;&nbsp;컨테이너의&nbsp;유효&nbsp;범위가&nbsp;올바르지&nbsp;않습니다.<br />
+*234&nbsp;&nbsp;&nbsp;컨테이너&nbsp;생성에&nbsp;실패했습니다.<br />
+*235&nbsp;&nbsp;&nbsp;컨테이너&nbsp;생성에&nbsp;실패했습니다<br />
+*236&nbsp;&nbsp;&nbsp;ALV&nbsp;Grid&nbsp;컨트롤을&nbsp;생성할&nbsp;수&nbsp;없습니다.<br />
+*237&nbsp;&nbsp;&nbsp;ALV&nbsp;Grid&nbsp;초기화에&nbsp;실패했습니다.<br />
+*238&nbsp;&nbsp;&nbsp;ALV&nbsp;Grid&nbsp;연결에&nbsp;실패했습니다.<br />
+*239&nbsp;&nbsp;&nbsp;ALV&nbsp;Grid&nbsp;데이터&nbsp;프로바이더를&nbsp;생성할&nbsp;수&nbsp;없습니다.<br />
+*240&nbsp;&nbsp;&nbsp;ALV&nbsp;Grid&nbsp;알&nbsp;수&nbsp;없는&nbsp;오류<br />
+*241&nbsp;&nbsp;&nbsp;Grid&nbsp;파라미터&nbsp;조합이&nbsp;올바르지&nbsp;않습니다.<br />
+*243&nbsp;&nbsp;&nbsp;Grid&nbsp;출력&nbsp;행이&nbsp;너무&nbsp;많습니다.<br />
+*244&nbsp;&nbsp;&nbsp;Grid&nbsp;초기화에&nbsp;실패했습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2026. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>
