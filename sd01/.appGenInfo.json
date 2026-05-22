@@ -1,0 +1,23 @@
+{
+  "generationParameters": {
+    "generationDate": "Fri May 22 2026 09:46:44 GMT+0900 (Korean Standard Time)",
+    "generatorPlatform": "Visual Studio Code",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "http://61.97.134.36:8000/sap/opu/odata/sap/ZCDS_D4_SD_0005_CDS",
+    "appName": "sd01",
+    "appTitle": "[SD] UI5 렌탈 청구 계획 조회 프로그램",
+    "appDescription": "An SAP Fiori application.",
+    "appNamespace": "code.t4.d29",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.120.23",
+    "enableEslint": true,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.23.0",
+    "template": "Basic V2",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}

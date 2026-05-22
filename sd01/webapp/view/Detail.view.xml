@@ -1,0 +1,115 @@
+<mvc:View
+    controllerName="code.t4.d29.sd01.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:m="sap.m"
+    xmlns="sap.uxap"
+>
+    <ObjectPageLayout id="objectPage">
+        <headerTitle>
+            <ObjectPageDynamicHeaderTitle id="detDynHeaderTitle">
+                <expandedHeading>
+                    <m:Title id="detPageTitle" text="렌탈 청구 계획 상세" />
+                </expandedHeading>
+                <actions>
+                    <m:Button
+                        id="detBtnNavBack"
+                        text="뒤로"
+                        icon="sap-icon://nav-back"
+                        press=".onNavBack"
+                    />
+                </actions>
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+
+        <sections>
+            <ObjectPageSection id="detSecBasic" title="기본 정보">
+                <subSections>
+                    <ObjectPageSubSection id="detSubSecBasic">
+                        <blocks>
+                            <m:VBox id="detVboxBasic" class="sapUiSmallMargin">
+
+                                <m:HBox id="detHbCtno" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblCtno" text="렌탈계약번호" width="150px" />
+                                    <m:Text id="detTxtCtno" text="{ctno}" />
+                                </m:HBox>
+
+                                <m:HBox id="detHbBillYmd" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblBillYmd" text="청구년월일" width="150px" />
+                                    <m:Text id="detTxtBillYmd" text="{path: 'bill_ymd', formatter: '.formatter.formatDate'}" />
+                                </m:HBox>
+
+                                <m:HBox id="detHbKunnr" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblKunnr" text="고객번호" width="150px" />
+                                    <m:Text id="detTxtKunnr" text="{kunnr}" />
+                                </m:HBox>
+
+                                <m:HBox id="detHbAuart" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblAuart" text="판매문서유형" width="150px" />
+                                    <m:Text id="detTxtAuart" text="{auart}" />
+                                </m:HBox>
+
+                                <m:HBox id="detHbVbelnIv" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblVbelnIv" text="청구번호" width="150px" />
+                                    <m:ObjectStatus
+                                        id="detObjStatusVbelnIv"
+                                        text="{path: 'vbeln_iv', formatter: '.formatter.formatBillText'}"
+                                        state="{path: 'vbeln_iv', formatter: '.formatter.formatBillState'}"
+                                        icon="{path: 'vbeln_iv', formatter: '.formatter.formatBillIcon'}"
+                                    />
+                                </m:HBox>
+
+                                <m:HBox id="detHbBillAmt" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblBillAmt" text="청구 예정 금액" width="150px" />
+                                    <m:ObjectNumber
+                                        id="detObjNumBillAmt"
+                                        number="{path: 'bill_amt', formatter: '.formatter.formatAmountComma'}"
+                                        unit="{waers}"
+                                        emphasized="true"
+                                    />
+                                </m:HBox>
+
+                                <m:HBox id="detHbProcDate" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblProcDate" text="실제 처리일자" width="150px" />
+                                    <m:Text id="detTxtProcDate" text="{path: 'proc_date', formatter: '.formatter.formatDate'}" />
+                                </m:HBox>
+
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+
+            <ObjectPageSection id="detSecLog" title="로그 정보">
+                <subSections>
+                    <ObjectPageSubSection id="detSubSecLog">
+                        <blocks>
+                            <m:VBox id="detVboxLog" class="sapUiSmallMargin">
+
+                                <m:HBox id="detHbErnam" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblErnam" text="생성자" width="150px" />
+                                    <m:Text id="detTxtErnam" text="{ernam}" />
+                                </m:HBox>
+
+                                <m:HBox id="detHbErdat" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblErdat" text="생성일" width="150px" />
+                                    <m:Text id="detTxtErdat" text="{path: 'erdat', formatter: '.formatter.formatDate'}" />
+                                </m:HBox>
+
+                                <m:HBox id="detHbAenam" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblAenam" text="변경자" width="150px" />
+                                    <m:Text id="detTxtAenam" text="{aenam}" />
+                                </m:HBox>
+
+                                <m:HBox id="detHbAedat" alignItems="Center" class="sapUiTinyMarginBottom">
+                                    <m:Label id="detLblAedat" text="변경일" width="150px" />
+                                    <m:Text id="detTxtAedat" text="{path: 'aedat', formatter: '.formatter.formatDate'}" />
+                                </m:HBox>
+
+                            </m:VBox>
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+        </sections>
+    </ObjectPageLayout>
+</mvc:View>

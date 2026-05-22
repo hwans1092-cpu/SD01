@@ -1,0 +1,28 @@
+/* ─── 검색 조건 ─── */
+.sd01SearchBar {
+    display: flex;
+}
+
+/* ─── 요약 타일 레이아웃 ─── */
+.sd01TileRow {
+    gap: 1.25rem;
+    padding: 0.25rem 0 0.5rem;
+}
+
+.sd01Tile {
+    flex: 1 1 calc(25% - 1.25rem);
+    min-width: 190px;
+    max-width: 280px;
+}
+
+
+/* 화면이 좁아질 때 타일 2x2 배치 */
+@media (max-width: 800px) {
+    .sd01Tile { flex: 1 1 calc(50% - 1.25rem); }
+}
+
+/* 화면이 매우 좁을 때 1열 배치 */
+@media (max-width: 480px) {
+    .sd01Tile { flex: 1 1 100%; max-width: 100%; }
+}
+

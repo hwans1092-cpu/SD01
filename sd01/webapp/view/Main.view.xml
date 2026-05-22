@@ -1,0 +1,401 @@
+<mvc:View
+    controllerName="code.t4.d29.sd01.controller.Main"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:m="sap.m"
+    xmlns:table="sap.ui.table"
+    xmlns:core="sap.ui.core"
+>
+    <m:Page id="mainPage" title="렌탈 청구 계획 조회" showNavButton="false">
+        <m:content>
+            <m:VBox id="mainVBox" class="sapUiSmallMargin">
+
+                <!-- ─── 검색 조건 패널 ─── -->
+                <m:Panel
+                    id="searchPanel"
+                    headerText="검색 조건"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <m:content>
+                        <m:HBox
+                            id="searchHBox"
+                            alignItems="Center"
+                            justifyContent="SpaceBetween"
+                            class="sapUiSmallMarginBeginEnd sapUiSmallMarginTopBottom sd01SearchBar"
+                        >
+                            <m:HBox id="searchGrpCtno" alignItems="Center">
+                                <m:Label id="lblCtno" text="렌탈계약번호" width="110px" />
+                                <m:Input
+                                    id="inpCtno"
+                                    width="200px"
+                                    showValueHelp="true"
+                                    valueHelpRequest=".onCtnoValueHelp"
+                                    placeholder="CTNO 선택"
+                                    submit=".onInputSubmit"
+                                />
+                            </m:HBox>
+                            <m:HBox id="searchGrpBillYmd" alignItems="Center">
+                                <m:Label id="lblBillYmd" text="청구년월일" width="90px" />
+                                <m:DateRangeSelection
+                                    id="drsBillYmd"
+                                    width="300px"
+                                    displayFormat="yyyy-MM-dd"
+                                    valueFormat="yyyyMMdd"
+                                    placeholder="조회 기간 선택"
+                                />
+                            </m:HBox>
+                            <m:HBox id="searchGrpStatus" alignItems="Center">
+                                <m:Label id="lblStatus" text="청구 상태" width="80px" />
+                                <m:Select id="selStatus" width="130px">
+                                    <m:items>
+                                        <core:Item id="itemAll"     key="ALL"     text="전체" />
+                                        <core:Item id="itemIssued"  key="ISSUED"  text="발행" />
+                                        <core:Item id="itemPending" key="PENDING" text="미발행" />
+                                    </m:items>
+                                </m:Select>
+                            </m:HBox>
+                            <m:HBox id="searchGrpBtns" alignItems="Center">
+                                <m:Button
+                                    id="btnSearch"
+                                    text="조회"
+                                    type="Emphasized"
+                                    icon="sap-icon://search"
+                                    press=".onSearch"
+                                />
+                                <m:Button
+                                    id="btnReset"
+                                    text="초기화"
+                                    icon="sap-icon://clear-filter"
+                                    press=".onReset"
+                                    class="sapUiTinyMarginBegin"
+                                />
+                            </m:HBox>
+                        </m:HBox>
+                    </m:content>
+                </m:Panel>
+
+                <!-- ─── 요약 타일 4개 ─── -->
+                <m:HBox id="tileRow" wrap="Wrap" justifyContent="Center" class="sd01TileRow sapUiSmallMarginBottom">
+
+                    <m:GenericTile
+                        id="tileTotalCount"
+                        header="총 청구 건수"
+                        subheader="조회 기간 전체"
+                        frameType="OneByOne"
+                        class="sd01Tile"
+                    >
+                        <m:tileContent>
+                            <m:TileContent id="tcTotalCount">
+                                <m:content>
+                                    <m:NumericContent
+                                        id="ncTotalCount"
+                                        value="{summary>/totalCount}"
+                                        scale="건"
+                                        truncateValueTo="5"
+                                        withMargin="false"
+                                    />
+                                </m:content>
+                            </m:TileContent>
+                        </m:tileContent>
+                    </m:GenericTile>
+
+                    <m:GenericTile
+                        id="tileTotalAmount"
+                        header="총 청구 예정 금액"
+                        subheader="조회 기간 합계"
+                        frameType="OneByOne"
+                        class="sd01Tile"
+                    >
+                        <m:tileContent>
+                            <m:TileContent id="tcTotalAmount">
+                                <m:content>
+                                    <m:NumericContent
+                                        id="ncTotalAmount"
+                                        value="{summary>/totalAmountDisplay}"
+                                        scale="{parts: ['summary>/totalAmountScale', 'summary>/currency'], formatter: '.formatter.formatAmountScale'}"
+                                        withMargin="false"
+                                    />
+                                </m:content>
+                            </m:TileContent>
+                        </m:tileContent>
+                    </m:GenericTile>
+
+                    <m:GenericTile
+                        id="tileIssued"
+                        header="청구번호 발행 건수"
+                        subheader="청구번호 존재"
+                        frameType="OneByOne"
+                        class="sd01Tile"
+                    >
+                        <m:tileContent>
+                            <m:TileContent id="tcIssued">
+                                <m:content>
+                                    <m:NumericContent
+                                        id="ncIssued"
+                                        value="{summary>/issuedCount}"
+                                        scale="건"
+                                        valueColor="Good"
+                                        truncateValueTo="5"
+                                        withMargin="false"
+                                    />
+                                </m:content>
+                            </m:TileContent>
+                        </m:tileContent>
+                    </m:GenericTile>
+
+                    <m:GenericTile
+                        id="tilePending"
+                        header="미발행"
+                        subheader="청구번호 없음"
+                        frameType="OneByOne"
+                        class="sd01Tile"
+                    >
+                        <m:tileContent>
+                            <m:TileContent id="tcPending">
+                                <m:content>
+                                    <m:NumericContent
+                                        id="ncPending"
+                                        value="{summary>/pendingCount}"
+                                        scale="건"
+                                        valueColor="{
+                                            path: 'summary>/pendingCount',
+                                            formatter: '.formatter.formatPendingColor'
+                                        }"
+                                        truncateValueTo="5"
+                                        withMargin="false"
+                                    />
+                                </m:content>
+                            </m:TileContent>
+                        </m:tileContent>
+                    </m:GenericTile>
+
+                </m:HBox>
+
+                <!-- ─── 일별 청구금액 현황 패널 ─── -->
+                <m:Panel
+                    id="chartPanel"
+                    headerText="일별 청구금액 현황"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <m:content>
+                        <m:Table
+                            id="dailyTable"
+                            items="{chart>/data}"
+                            noDataText="조회 후 데이터가 표시됩니다."
+                            fixedLayout="false"
+                            class="sapUiSmallMarginBottom"
+                        >
+                            <m:columns>
+                                <m:Column id="colDailyDate" width="140px">
+                                    <m:Label id="lblDailyDate" text="청구일" />
+                                </m:Column>
+                                <m:Column id="colDailyCount">
+                                    <m:Label id="lblDailyCount" text="건수 / 청구 금액" />
+                                </m:Column>
+                                <m:Column id="colDailyBar" width="30%" minScreenWidth="Tablet" demandPopin="true">
+                                    <m:Label id="lblDailyBar" text="미발행률" />
+                                </m:Column>
+                            </m:columns>
+                            <m:items>
+                                <m:ColumnListItem id="dailyListItem">
+                                    <m:cells>
+                                        <m:Text id="cellDailyDate" text="{chart>date}" wrapping="false" />
+                                        <m:HBox id="cellDailyCountAmt" alignItems="Center" renderType="Bare">
+                                            <m:ObjectNumber
+                                                id="cellDailyCount"
+                                                number="{chart>count}"
+                                                unit="건"
+                                                emphasized="false"
+                                            />
+                                            <m:Text
+                                                id="cellDailySep"
+                                                text=" / "
+                                                class="sapUiTinyMarginBeginEnd"
+                                            />
+                                            <m:ObjectNumber
+                                                id="cellDailyAmt"
+                                                number="{path: 'chart>amount', formatter: '.formatter.formatAmountComma'}"
+                                                unit="{chart>currency}"
+                                            />
+                                        </m:HBox>
+                                        <m:ProgressIndicator
+                                            id="cellDailyBar"
+                                            percentValue="{chart>ratio}"
+                                            displayValue="{chart>ratioText}"
+                                            showValue="true"
+                                            state="{chart>barState}"
+                                        />
+                                    </m:cells>
+                                </m:ColumnListItem>
+                            </m:items>
+                        </m:Table>
+                    </m:content>
+                </m:Panel>
+
+                <!-- ─── 조회 결과 메시지 ─── -->
+                <m:MessageStrip
+                    id="msgStrip"
+                    text="{summary>/resultText}"
+                    type="Information"
+                    showIcon="true"
+                    showCloseButton="true"
+                    visible="false"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- ─── 테이블 헤더 툴바 ─── -->
+                <m:OverflowToolbar id="tableToolbar" style="Clear">
+                    <m:Title id="tableTitle" text="청구 목록" level="H4" />
+                    <m:ToolbarSpacer id="tableToolbarSpacer" />
+                    <m:Button
+                        id="btnExport"
+                        icon="sap-icon://excel-attachment"
+                        text="Excel 다운로드"
+                        tooltip="현재 조회 결과를 Excel로 다운로드합니다"
+                        press=".onExport"
+                    />
+                </m:OverflowToolbar>
+
+                <!-- ─── 청구 목록 테이블 ─── -->
+                <table:Table
+                    id="billTable"
+                    rows="{tableData>/rows}"
+                    visibleRowCount="20"
+                    selectionMode="Single"
+                    selectionBehavior="RowOnly"
+                    rowActionCount="1"
+                    enableBusyIndicator="true"
+                    alternateRowColors="true"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <table:rowSettingsTemplate>
+                        <table:RowSettings
+                            id="rowSettings"
+                            highlight="{
+                                path: 'tableData>vbeln_iv',
+                                formatter: '.formatter.formatRowHighlight'
+                            }"
+                        />
+                    </table:rowSettingsTemplate>
+
+                    <table:rowActionTemplate>
+                        <table:RowAction id="rowAction">
+                            <table:RowActionItem
+                                id="rowActionNav"
+                                type="Navigation"
+                                press=".onRowPress"
+                                tooltip="상세 보기"
+                            />
+                        </table:RowAction>
+                    </table:rowActionTemplate>
+
+                    <table:columns>
+                        <table:Column id="colCtno" width="130px">
+                            <m:Label id="lblColCtno" text="렌탈계약번호" />
+                            <table:template>
+                                <m:Text id="txtCtno" text="{tableData>ctno}" wrapping="false" />
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column id="colBillYmd" width="120px">
+                            <m:Label id="lblColBillYmd" text="청구년월일" />
+                            <table:template>
+                                <m:Text
+                                    id="txtBillYmd"
+                                    text="{path: 'tableData>bill_ymd', formatter: '.formatter.formatDate'}"
+                                    wrapping="false"
+                                />
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column id="colKunnr" width="120px">
+                            <m:Label id="lblColKunnr" text="고객번호" />
+                            <table:template>
+                                <m:Text id="txtKunnr" text="{tableData>kunnr}" wrapping="false" />
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column id="colAuart" width="110px">
+                            <m:Label id="lblColAuart" text="판매문서유형" />
+                            <table:template>
+                                <m:Text id="txtAuart" text="{tableData>auart}" wrapping="false" />
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column id="colVbelnIv" width="160px">
+                            <m:Label id="lblColVbelnIv" text="청구번호" />
+                            <table:template>
+                                <m:ObjectStatus
+                                    id="objStatusVbelnIv"
+                                    text="{path: 'tableData>vbeln_iv', formatter: '.formatter.formatBillText'}"
+                                    state="{path: 'tableData>vbeln_iv', formatter: '.formatter.formatBillState'}"
+                                    icon="{path: 'tableData>vbeln_iv', formatter: '.formatter.formatBillIcon'}"
+                                />
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column id="colBillAmt" width="160px" hAlign="End">
+                            <m:Label id="lblColBillAmt" text="청구 예정 금액" />
+                            <table:template>
+                                <m:ObjectNumber
+                                    id="objNumBillAmt"
+                                    number="{path: 'tableData>bill_amt', formatter: '.formatter.formatAmountComma'}"
+                                    unit="{tableData>waers}"
+                                />
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column id="colWaers" width="90px">
+                            <m:Label id="lblColWaers" text="통화" />
+                            <table:template>
+                                <m:Text id="txtWaers" text="{tableData>waers}" wrapping="false" />
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column id="colProcDate">
+                            <m:Label id="lblColProcDate" text="실제 처리일자" />
+                            <table:template>
+                                <m:Text
+                                    id="txtProcDate"
+                                    text="{path: 'tableData>proc_date', formatter: '.formatter.formatDate'}"
+                                    wrapping="false"
+                                />
+                            </table:template>
+                        </table:Column>
+                    </table:columns>
+                </table:Table>
+
+                <!-- ─── 페이지네이션 ─── -->
+                <m:HBox
+                    id="paginationBar"
+                    alignItems="Center"
+                    justifyContent="Center"
+                    class="sapUiSmallMarginBottom sapUiSmallMarginTop"
+                >
+                    <m:Button id="btnPageFirst" icon="sap-icon://collapse-group" tooltip="처음" press=".onPageFirst" enabled="{pagination>/hasPrev}" />
+                    <m:Button id="btnPagePrev"  icon="sap-icon://navigation-left-arrow" tooltip="이전" press=".onPagePrev" enabled="{pagination>/hasPrev}" class="sapUiTinyMarginBegin" />
+                    <m:Input
+                        id="stepPage"
+                        value="{pagination>/currentPage}"
+                        type="Number"
+                        width="60px"
+                        textAlign="Center"
+                        class="sapUiSmallMarginBegin sapUiSmallMarginEnd"
+                        submit=".onGoToPage"
+                        change=".onGoToPage"
+                    />
+                    <m:Text id="txtPageInfo" text="/ {pagination>/totalPages} 페이지" class="sapUiSmallMarginEnd" />
+                    <m:Button id="btnPageNext" icon="sap-icon://navigation-right-arrow" tooltip="다음" press=".onPageNext" enabled="{pagination>/hasNext}" />
+                    <m:Button id="btnPageLast" icon="sap-icon://expand-group" tooltip="마지막" press=".onPageLast" enabled="{pagination>/hasNext}" class="sapUiTinyMarginBegin" />
+                    <m:Text id="txtTotalCount" text="(전체 {pagination>/totalCount}건)" class="sapUiSmallMarginBegin" />
+                </m:HBox>
+
+            </m:VBox>
+        </m:content>
+    </m:Page>
+</mvc:View>
